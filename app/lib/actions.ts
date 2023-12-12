@@ -4,31 +4,39 @@ import { redirect } from "next/navigation";
 import { db } from "./db";
 
 export async function createBook(formState: { message: string }, formData: FormData) {
+    try {
+        const title = formData.get('title')
+        const author = formData.get('author')
 
-    const title = formData.get('title')
-    const author = formData.get('author')
+        if (typeof title !== 'string' || title.length < 5) {
+            return {
+                message: 'Title must be longer',
+            };
+        }
+        if (typeof author !== 'string' || author.length < 5) {
+            return {
+                message: 'Author must be longer',
+            };
+        }
 
-    if (typeof title !== 'string' || title.length < 5) {
-        return {
-            message: 'Title must be longer',
-        };
+        const book = await db.book.create({
+            data: {
+                title,
+                author
+            }
+        })
+
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            return {
+                message: err.message
+            }
+        } else {
+            return {
+                message: "Something went wrong"
+            }
+        }
     }
-    if (typeof author !== 'string' || author.length < 5) {
-        return {
-            message: 'Author must be longer',
-        };
-    }
-
-    // const book = await db.book.create({
-    //     data: {
-    //         title,
-    //         author
-    //     }
-    // })
-
-    throw new Error('test')
-   // console.log(book)
-
     redirect('/books')
 }
 

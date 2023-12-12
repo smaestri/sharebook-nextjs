@@ -13,3 +13,6 @@ tetser sans "use client" page de creation pour avoir erreur
 
 error.tsx MUSt be "use client"
 
+from server to client : return a value, do not throw error 44
+berrteu UX
+Always redirect outside do test

@@ -3,24 +3,32 @@
 import { redirect } from "next/navigation";
 import { db } from "./db";
 
-export async function createBook(formState : {message: string}, formData: FormData) {
+export async function createBook(formState: { message: string }, formData: FormData) {
 
-    return {
-        message: 'title longer'
+    const title = formData.get('title')
+    const author = formData.get('author')
+
+    if (typeof title !== 'string' || title.length < 5) {
+        return {
+            message: 'Title must be longer',
+        };
     }
-//     const title = formData.get('title') as string
-//     const author = formData.get('author') as string
+    if (typeof author !== 'string' || author.length < 5) {
+        return {
+            message: 'Author must be longer',
+        };
+    }
 
-//     const book = await db.book.create({
-//       data: {
-//         title,
-//         author
-//       }
-//     })
-//     console.log(book)
+    const book = await db.book.create({
+        data: {
+            title,
+            author
+        }
+    })
+    console.log(book)
 
-//     redirect('/books')
-  }
+    redirect('/books')
+}
 
 export async function updateBook(id: number, formData: FormData) {
 
@@ -47,7 +55,7 @@ export async function deleteBook(id: number) {
 
     const book = await db.book.delete({
         where: { id },
-      
+
     })
 
     redirect('/books')

@@ -11,7 +11,7 @@ export default function Home() {
     <form action={action}>
       Title: <input className="rounded-md border" name="title" type="text" />
       Author: <input className="rounded-md border" name="author" type="text" />
-      <div>{formState.message}</div>
+      {formState.message ? <div className="my-2 p-2 bg-red-200 border rounded border-red-400">{formState.message}</div> : null}
       <button type="submit">Valid</button>
     </form>
   </>

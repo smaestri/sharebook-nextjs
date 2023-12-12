@@ -57,6 +57,7 @@ export async function updateBook(id: number, formData: FormData) {
         }
     })
     console.log(book)
+    revalidatePath('/books')
 
     redirect('/books')
 }

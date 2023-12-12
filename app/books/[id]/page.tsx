@@ -18,3 +18,13 @@ export default async function Book(props: BookProps) {
     }
 return <div>{book.title}</div>
 }
+
+export async function generateStaticParams() {
+    const books = await db.book.findMany();
+  
+    return books.map((book) => {
+      return {
+        id: book.id.toString(),
+      };
+    });
+  }

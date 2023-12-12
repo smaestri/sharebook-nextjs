@@ -6,10 +6,10 @@ on ne peut faire le get QUE dans un server comp (accès base)
 
 pas obligé BIND()à pouir create, c est juste pouir modifier les PARAM car on met <form action=..>
 
-2- Validation
+2- Validation 41-44
 
 useformstate hook
 tetser sans "use client" page de creation pour avoir erreur
 
-
+error.tsx MUSt be "use client"
 

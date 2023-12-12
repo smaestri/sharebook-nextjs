@@ -19,13 +19,15 @@ export async function createBook(formState: { message: string }, formData: FormD
         };
     }
 
-    const book = await db.book.create({
-        data: {
-            title,
-            author
-        }
-    })
-    console.log(book)
+    // const book = await db.book.create({
+    //     data: {
+    //         title,
+    //         author
+    //     }
+    // })
+
+    throw new Error('test')
+   // console.log(book)
 
     redirect('/books')
 }

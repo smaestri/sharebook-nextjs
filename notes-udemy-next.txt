@@ -1,0 +1,15 @@
+1 - ROUTES / PAGES
+UDEMY 0- 40
+EDIT BOOK
+On n'ets OBLIGE de SPLITTER avec un composant SERVEUR + client. CAR :
+on ne peut faire le get QUE dans un server comp (accès base)
+
+pas obligé BIND()à pouir create, c est juste pouir modifier les PARAM car on met <form action=..>
+
+2- Validation
+
+useformstate hook
+tetser sans "use client" page de creation pour avoir erreur
+
+
+

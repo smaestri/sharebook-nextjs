@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { db } from "./db";
+import { revalidatePath } from "next/cache";
 
 export async function createBook(formState: { message: string }, formData: FormData) {
     try {
@@ -37,6 +38,7 @@ export async function createBook(formState: { message: string }, formData: FormD
             }
         }
     }
+    revalidatePath('/books')
     redirect('/books')
 }
 
@@ -67,6 +69,6 @@ export async function deleteBook(id: number) {
         where: { id },
 
     })
-
+    revalidatePath('/books')
     redirect('/books')
 }

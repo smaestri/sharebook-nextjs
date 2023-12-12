@@ -16,3 +16,10 @@ error.tsx MUSt be "use client"
 from server to client : return a value, do not throw error 44
 berrteu UX
 Always redirect outside do test
+
+3- CACHE 45 -> 51
+error on create book
+DESCRIPTION OF STATIC VS DYNAIC ROUTES 45, 46, 47
+npm run build to analyze
+when to use cache control => ON DEMAND
+

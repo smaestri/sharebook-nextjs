@@ -5,7 +5,6 @@ import { useState } from "react"
 
 export default function EditBookForm({ book }: { book: Book }) {
     const updateBookAction = updateBook.bind(null, book.id)
-    const [, setBookData] = useState<Book>(book);
 
     return (
         <form action={updateBookAction}>

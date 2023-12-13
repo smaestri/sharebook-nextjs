@@ -1,19 +1,16 @@
-"use client"
 import { createBook } from "@/app/lib/actions";
 import { useFormState } from "react-dom";
+import CreateBookForm from "./create-form";
+import { db } from "@/app/lib/db";
 
-export default function Home() {
+export default async function Home() {
 
-  const [formState, action] = useFormState(createBook,  {message: ''})
+  const categories = await db.category.findMany();
+  console.log('cat' + JSON.stringify(categories))
 
   return (<>
     <div>Create a book</div>
-    <form action={action}>
-      Title: <input className="rounded-md border" name="title" type="text" />
-      Author: <input className="rounded-md border" name="author" type="text" />
-      {formState.message ? <div className="my-2 p-2 bg-red-200 border rounded border-red-400">{formState.message}</div> : null}
-      <button type="submit">Valid</button>
-    </form>
+    <CreateBookForm categories={categories} />
   </>
   )
 }

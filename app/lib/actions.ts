@@ -8,6 +8,11 @@ export async function createBook(formState: { message: string }, formData: FormD
     try {
         const title = formData.get('title')
         const author = formData.get('author')
+        const category = formData.get('category')
+
+
+console.log('category' + category)
+
 
         if (typeof title !== 'string' || title.length < 5) {
             return {
@@ -19,11 +24,21 @@ export async function createBook(formState: { message: string }, formData: FormD
                 message: 'Author must be longer',
             };
         }
+        if (typeof category !== 'string' ) {
+            return {
+                message: 'Cat incorrect',
+            };
+        }
+
+        // const categoryDb = await db.category.findFirst({
+        //     where: {id: parseInt(category)}
+        // })
 
         const book = await db.book.create({
             data: {
                 title,
-                author
+                author,
+                categoryId: parseInt(category)
             }
         })
 

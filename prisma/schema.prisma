@@ -11,7 +11,15 @@ datasource db {
 }
 
 model Book {
-  id Int @id @default(autoincrement())
-  title String
-  author String
+  id         Int      @id @default(autoincrement())
+  title      String
+  author     String
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+  Book Book[]
 }

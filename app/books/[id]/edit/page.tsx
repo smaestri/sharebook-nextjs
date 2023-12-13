@@ -1,7 +1,6 @@
 // "use client"
 import { db } from "@/app/lib/db";
-import { notFound, redirect } from "next/navigation";
-import { useState } from "react";
+import { notFound } from "next/navigation";
 import EditBookForm from "./edit-form";
 
 interface EditBookProps {
@@ -16,13 +15,24 @@ export default async function EditBook(props: EditBookProps) {
         where: { id }
     })
 
+console.log('book to update: ' + book)
+
     if (!book) {
         return notFound();
     }
-
+    
+    // TODO how to convert TYPE from PRISMA to TS ???
     return <div>
 
-        <EditBookForm book={book as Book} />
+        <EditBookForm book={{
+            id,
+            title: book.title,
+            author: book.author,
+            category: {
+                id: book.categoryId,
+                name: 'toto'
+            }
+        }} />
 
 
     </div>

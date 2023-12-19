@@ -5,13 +5,24 @@ import { deleteBook } from "../lib/actions";
 import Image from 'next/image';
 import { formatDateToLocal } from "../lib/utils";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { Prisma } from "@prisma/client";
+
+const booksWithCategory = Prisma.validator<Prisma.BookDefaultArgs>()({
+  include: { category: true },
+})
+export type BookWithCategory = Prisma.BookGetPayload<typeof booksWithCategory>
 
 
 export default async function Books({ searchParams }: any) {
   // const router = useRouter();
   // const { categoryId } = router.query;
   console.log('searchParams' + JSON.stringify(searchParams))
-  let books: Book[] = []
+  //let booksWithCategory: Book[] = []
+
+
+
+
+  let books;
   let category = null
   if (searchParams.categoryId) {
     books = await db.book.findMany({
@@ -59,7 +70,7 @@ export default async function Books({ searchParams }: any) {
         </tr>
       </thead>
       <tbody className="bg-white">
-        {books?.map((book: Book) => (
+        {books?.map((book: BookWithCategory) => (
           <tr
             key={book.id}
             className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
@@ -83,12 +94,6 @@ export default async function Books({ searchParams }: any) {
             <td className="whitespace-nowrap px-3 py-3">
               {book.category.name}
             </td>
-            {/* <td className="whitespace-nowrap px-3 py-3">
-                    {formatDateToLocal(book.date)}
-                  </td> */}
-            {/* <td className="whitespace-nowrap px-3 py-3">
-                    <InvoiceStatus status={invoice.status} />
-                  </td> */}
             <td className="whitespace-nowrap py-3 pl-6 pr-3">
               <div className="flex justify-end gap-3">
                 <UpdateBook id={book.id} />

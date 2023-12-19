@@ -10,10 +10,6 @@ export async function createBook(formState: { message: string }, formData: FormD
         const author = formData.get('author')
         const category = formData.get('category')
 
-
-console.log('category' + category)
-
-
         if (typeof title !== 'string' || title.length < 5) {
             return {
                 message: 'Title must be longer',

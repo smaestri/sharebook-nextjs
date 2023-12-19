@@ -23,3 +23,7 @@ DESCRIPTION OF STATIC VS DYNAIC ROUTES 45, 46, 47
 npm run build to analyze
 when to use cache control => ON DEMAND
 
+
+PRISMA SEED
+npx prisma db seed
+

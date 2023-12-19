@@ -16,6 +16,7 @@ export default async function EditBook(props: EditBookProps) {
     })
 
 console.log('book to update: ' + book)
+const categories = await db.category.findMany();
 
     if (!book) {
         return notFound();
@@ -24,14 +25,14 @@ console.log('book to update: ' + book)
     // TODO how to convert TYPE from PRISMA to TS ???
     return <div>
 
-        <EditBookForm book={{
+        <EditBookForm categories={categories} book={{
             id,
             title: book.title,
             author: book.author,
             category: {
                 id: book.categoryId,
                 name: 'toto'
-            }
+            },
         }} />
 
 

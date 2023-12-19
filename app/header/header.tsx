@@ -1,16 +1,14 @@
 import Link from "next/link";
+import Account from "./Account";
 
-export default function Header() {
-    return (<nav>
-            <div>
-                <Link href="/books">Mes livres</Link>
-                <Link href="/borrows">Mes emprunts</Link>
-                <Link href="/search-books">Livres disponibles</Link>
-            </div>
-            <div>
-                <div className="me-2">Bienvenue, ...</div>
-                <button type="button" >Se déconnecter</button>
-            </div>
-    </nav>)
+export default async function Header() {
+    return (<div className="flex flex-row justify-around">
+        <div>
+            <input type="text" placeholder="Search book, author, etc..."></input>
+        </div>
+        <div>
+            <Account />
+        </div>
+    </div>)
 
 }

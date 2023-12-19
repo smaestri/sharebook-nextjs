@@ -63,12 +63,20 @@ export async function updateBook(id: number, formData: FormData) {
 
     const title = formData.get('title') as string
     const author = formData.get('author') as string
+    const category = formData.get('category')
+    if (typeof category !== 'string' ) {
+        return {
+            message: 'Cat incorrect',
+        };
+    }
 
     const book = await db.book.update({
         where: { id },
         data: {
             title,
-            author
+            author,
+            categoryId: parseInt(category)
+
         }
     })
     console.log(book)

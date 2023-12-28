@@ -54,9 +54,6 @@ export async function createBook(formState: { message: string }, formData: FormD
 }
 
 export async function updateBook(id: number, formData: FormData) {
-
-    console.log('updateBook ' + id + ' ' + formData)
-
     const title = formData.get('title') as string
     const author = formData.get('author') as string
     const category = formData.get('category')

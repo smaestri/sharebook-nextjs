@@ -19,15 +19,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className='container mx-auto flex flex-row'>
-          <SideBar />
-          <div className='container'>
-            <Header />
-            <main className='container mx-auto'>
-              {children}
-            </main>
+          <div className='container mx-auto flex flex-row'>
+            <SideBar />
+            <div className='container'>
+              <Header />
+              <main className='container mx-auto'>
+                {children}
+              </main>
+            </div>
           </div>
-        </div>
       </body>
     </html>
   )

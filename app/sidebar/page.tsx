@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { db } from "../lib/db";
-import Counter from "./Counter";
+import Counter from "./counter";
+import { Category } from "@prisma/client";
 
 export default async function SideBar() {
    const categories = await db.category.findMany();

@@ -2,9 +2,7 @@ import Link from "next/link";
 import { db } from "../lib/db";
 import { deleteBook } from "../lib/actions";
 // import { useSearchParams } from "next/navigation";
-import Image from 'next/image';
 import { formatDateToLocal } from "../lib/utils";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { Prisma } from "@prisma/client";
 
 const booksWithCategory = Prisma.validator<Prisma.BookDefaultArgs>()({
@@ -115,7 +113,7 @@ export function UpdateBook({ id }: { id: number }) {
     <Link href={`/books/${id}/edit`}
       className="rounded-md border p-2 hover:bg-gray-100"
     >
-      <PencilIcon className="w-5" />
+      Edit
     </Link>
   );
 }
@@ -125,10 +123,7 @@ export function DeleteBook({ id }: { id: number }) {
 
   return (
     <form action={deleteBookAction}>
-
-      <button className="rounded-md border p-2 hover:bg-gray-100">
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5" />
+      <button className="rounded-md border p-2 hover:bg-gray-100">Delete
       </button>
     </form>
   );

@@ -4,10 +4,7 @@ import CreateBookForm from "./create-form";
 import { db } from "@/app/lib/db";
 
 export default async function Home() {
-
   const categories = await db.category.findMany();
-  console.log('cat' + JSON.stringify(categories))
-
   return (<>
     <div>Create a book</div>
     <CreateBookForm categories={categories} />

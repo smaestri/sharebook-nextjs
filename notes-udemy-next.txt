@@ -27,3 +27,7 @@ when to use cache control => ON DEMAND
 PRISMA SEED
 npx prisma db seed
 
+Montrer pour Borrow que nécessité de passer par un composant pour CLORE, afin defaire le BIND de la sever action correctement
+
+Attentino au mappign BORROW : un SEUL LIVRE EMROUNTE à insatnt T => bookID UNIQUE (et pas couple user/book unique)?
+

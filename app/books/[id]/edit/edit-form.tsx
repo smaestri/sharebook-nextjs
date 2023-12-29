@@ -1,11 +1,12 @@
 "use client"
 
 import { updateBook } from "@/app/lib/actions";
-import { Book, Category } from "@prisma/client";
+import { Category } from "@prisma/client";
 import { useState } from "react"
+import { BookWithCategory } from "../../page";
 
 export default function EditBookForm({ book, categories }: {
-    book: Book, categories: Category[]
+    book: BookWithCategory, categories: Category[]
 }) {
     const updateBookAction = updateBook.bind(null, book.id)
     const [selectedCategory, setSelectedCategory] = useState('');

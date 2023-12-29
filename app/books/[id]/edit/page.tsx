@@ -2,6 +2,7 @@
 import { db } from "@/app/lib/db";
 import { notFound } from "next/navigation";
 import EditBookForm from "./edit-form";
+import { BookWithCategory } from "../../page";
 
 interface EditBookProps {
     params: {
@@ -11,29 +12,22 @@ interface EditBookProps {
 
 export default async function EditBook(props: EditBookProps) {
     const id = parseInt(props.params.id)
-    const book = await db.book.findFirst({
+    const bookWithCategory: BookWithCategory | null = await db.book.findFirst({
+        include: {
+            category: true,
+        },
         where: { id }
     })
 
-console.log('book to update: ' + book)
-const categories = await db.category.findMany();
+    const categories = await db.category.findMany();
 
-    if (!book) {
+    if (!bookWithCategory) {
         return notFound();
     }
-    
-    // TODO how to convert TYPE from PRISMA to TS ???
+
     return <div>
 
-        <EditBookForm categories={categories} book={{
-            id,
-            title: book.title,
-            author: book.author,
-            category: {
-                id: book.categoryId,
-                name: 'toto'
-            },
-        }} />
+        <EditBookForm categories={categories} book={bookWithCategory} />
 
 
     </div>

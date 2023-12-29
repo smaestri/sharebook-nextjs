@@ -14,12 +14,31 @@ model Book {
   id         Int      @id @default(autoincrement())
   title      String
   author     String
+  status     String @default("FREE")
   categoryId Int
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Borrow     Borrow[]
 }
 
 model Category {
   id   Int    @id @default(autoincrement())
   name String
   Book Book[]
+}
+
+model Borrow {
+  book       Book @relation(fields: [bookId], references: [id])
+  bookId     Int
+  borrower   User @relation(fields: [borrowerId], references: [id])
+  borrowerId Int
+
+  @@unique([bookId, borrowerId])
+}
+
+model User {
+  id     Int      @id
+  Borrow Borrow[]
+  Book   Book[]
 }

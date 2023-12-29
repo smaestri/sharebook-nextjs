@@ -26,15 +26,12 @@ export async function createBook(formState: { message: string }, formData: FormD
             };
         }
 
-        // const categoryDb = await db.category.findFirst({
-        //     where: {id: parseInt(category)}
-        // })
-
-        const book = await db.book.create({
+        await db.book.create({
             data: {
                 title,
                 author,
-                categoryId: parseInt(category)
+                categoryId: parseInt(category),
+                userId: 2
             }
         })
 
@@ -72,9 +69,7 @@ export async function updateBook(id: number, formData: FormData) {
 
         }
     })
-    console.log(book)
     revalidatePath('/books')
-
     redirect('/books')
 }
 
@@ -88,4 +83,45 @@ export async function deleteBook(id: number) {
     })
     revalidatePath('/books')
     redirect('/books')
+}
+
+export async function borrowBook(bookId: number, borrowerId: number) {
+
+    console.log('borrow book ' + bookId)
+
+    await db.borrow.create({
+        data: {
+            bookId,
+            borrowerId
+        }
+    })
+    const book = await db.book.update({
+        where: { id: bookId },
+        data: {
+            status: "BORROWED"
+        }
+    })
+
+    revalidatePath('/borrows')
+    redirect('/borrows')
+}
+
+export async function closeBorrow(bookId: number) {
+
+    console.log('closeBorrow ' + bookId)
+
+    await db.borrow.deleteMany({
+        where: {
+            bookId,
+        }
+    })
+    await db.book.update({
+        where: { id: bookId },
+        data: {
+            status: "FREE"
+        }
+    })
+
+    revalidatePath('/borrows')
+    redirect('/borrows')
 }

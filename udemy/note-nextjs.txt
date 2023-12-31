@@ -1,0 +1,236 @@
+1. Pourquoi NEXT
+- application dynamique ex airbnb
+
+- statique blog, wikipedia, education etc
+
+- Next : pour créer des app statiques avec REACT
+
+2. projct overwivew routes + image / init project avec npm create
+
+3. File base routing next routing. Draw with each screen / route
+folder nested
+
+4. code route : creat folder with page.tsx (garder a lesprit que ca peut etre confus, refaire plus tard)
+
+5. links on home wih Link nor notmal anchor
+
+6. layout pour header explciation layout.tsx and mettre Links + add home
+
+7. componsant Header comosant reutilisable ! mettre dans src et pas dans app snon consiédé comem route (meme si ca amrche, c' est confus)
+src/components
+
+!!impot manuel, pas en auto!!
+
+8.relative import problem
+use @ => back to src
+
+9 . ress (images)
+
+10. public folder to add iumage
+<Image> : reactive
+relative path shortcut public also works for image
+some style on <Image>
+
+11 loading image problem jump image
+==> placeholder
+
+12.hero reusable component
+
+13.style delay in image loading
+other components to use reusable one
+
+14 deployment npx vercel
+
+17 generate new project
+
+18
+install prisma
+prisma init sqllite
+schema.prisma
+prisma migrate dev
+
+19 create page
+20 prisma client
+
+21 <form> + styling with tailwind
+default form not OK (empty form)
+
+22 server acion
+need to check server action
+'user server'
+mutate data
+
+23 deep dive server action
+sa run ion server
+
+24 server / client component
+client = function that returns JSX
+- server = some diff, default in next
+no more usetState! await fetch
+2 limitation :
+- hook not possible
+- event handler not possible
+
+- client
+ not psosible to show server component
+ rendered firs time on server
+
+ 25fetch data with server component
+ create server comp (not "use client" at top)
+ async 
+ http requet or db prisma directly
+ render
+
+ 26 dynzmic path
+ [id] => will put id in props
+ 
+
+ 27 fetch particular recor
+ type string ==> int
+ notFound next/navigation
+
+ 28 custom 404
+ not-found.tsx as close as possible
+
+ 29 loading.tsx
+Promise settimeout
+
+30 
+pas obligatoire  not found, retourner JSX pour eviter fichier
+mettre les liens  + style
+
+31 styling show page
+
+32edi snipper
+new page for edit
+
+33 edit spinner
+- fetch data
+- client compoennt for monaco ==> create new client component in a 
+new folder "compoennts at the root "use client"
+use snippet type from prisma
+first rendered on server (see devtools)
+
+34 monaco editor
+si prop undefined mettre = "" en param
+
+35 handlechange monaco
+
+36 chaning data in db = server action
+server action not alloewd in client component
+
+option 1 : pass as props from server compoennt to client comp
+(exception to the fact that we cant pass event handler)
+option 2 : separate file for sa
+ ==> vetter for code reuse 
+
+
+ 37 impleent SA in independant file
+ {use server} at the top 
+
+ 38 calling SA 
+ 2 options
+ - with form work without JS but BIND function
+-  withour form : use startTranstion, no FormDAta
+
+
+39 edit
+
+40 delete
+
+41 validation
+witjout JS 
+server action to page ==> useformstate
+
+42 create miwth erro
+- move to separate file SA because client component 
+- wrap with useFormState to get formState
+
+43 new rules ans styling
+
+44 error.tsx not good, empty page in case of error 
+better : dont throw error in SA - use try block
+use instanceof with TS 
+ dont put redirect() inseide try catch 
+
+ 45 gotcha cache
+
+ 46 snapshot of db atcompile time for static route 
+
+ 47 static or dynamic  npm build with signs
+
+ 48 use each cache control 
+
+ revalidate manual withrevalidateCAche() (ex todo list, aware of data changes) or auto (ex reddit)
+ disable cache upto date
+
+ 49 manual : not necessary on edit beacause we dont display code
+
+ 50 generatestaticparams 
+
+51 caching dynamic routes
+==>finally revalidatePath for edit (as built at compile time) with cache
+
+
+---------
+SECTION 7 NEXT AUTH
+------------
+
+52 /53 intit project 
+next ui compnent tailwind
+
+54 next ui frame motion
+import next ui in tailwind.config.tsx
+
+55 / 56 prisma
+
+54 -> 61 conf oauth
+
+62 design process
+
+list pages slug
+
+63 / 64 path helpers
+
+65 route
+
+66 where data changes in the appp ? ==> SA
+
+67 which route to revalidate
+
+68 / 69 / 70 Header
+
+71 header -> login ->cookie -> DYNAMIC PAGE
+
+72 use client with usession() that do not handle cookie directly, to allow STATIC
+
+73 /74 / 75 / 76 new topic, ZOD
+
+77 / 78 / 79 useformstate
+
+80 gestioner rreur directement dansle composannt next/ui with isinvalid / errorMessage
+
+81 / 82general form error
+
+83 spinner with useformstatus ned to declare new child comp with useformstatius
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+

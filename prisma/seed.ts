@@ -9,18 +9,6 @@ const load = async () => {
     await prisma.category.deleteMany()
     await prisma.user.deleteMany()
 
-    await prisma.user.create({
-      data:{
-        id: 1
-      } 
-    })
-
-    await prisma.user.create({
-      data:{
-        id: 2
-      } 
-    })
-
     // CREATEMANY nto supported for sqlite!!
     await prisma.category.create({
       data:{
@@ -86,9 +74,10 @@ const load = async () => {
         title: "english-book",
         author: "auth",
         user:{
-          connect: {
-            id: 1
+          create: {
+            id: "1"
           }
+          
         },
         category:{
           connect: {
@@ -98,42 +87,39 @@ const load = async () => {
       } 
     })
 
-    await prisma.book.create({
-      data:{
-        title: "enfant-book",
-        author: "auth2",
-        user:{
-          connect: {
-            id: 1
-          }
-        },
-        category:{
-          connect: {
-            id: catEnfant.id
-          }
-        }        
-      } 
-    })
+    // await prisma.book.create({
+    //   data:{
+    //     title: "enfant-book",
+    //     author: "auth2",
+    //     user:{
+    //       connect: {
+    //         id: 1
+    //       }
+    //     },
+    //     category:{
+    //       connect: {
+    //         id: catEnfant.id
+    //       }
+    //     }        
+    //   } 
+    // })
 
-    await prisma.book.create({
-      data:{
-        title: "info-book",
-        author: "auth3",
-        user:{
-          connect: {
-            id: 1
-          }
-        },
-        category:{
-          connect: {
-            id: catInfo.id
-          }
-        }        
-      } 
-    })
-
-
-
+    // await prisma.book.create({
+    //   data:{
+    //     title: "info-book",
+    //     author: "auth3",
+    //     user:{
+    //       connect: {
+    //         id: 1
+    //       }
+    //     },
+    //     category:{
+    //       connect: {
+    //         id: catInfo.id
+    //       }
+    //     }        
+    //   } 
+    // })
 
   } catch (e) {
     console.error(e)

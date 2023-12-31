@@ -8,6 +8,6 @@ export default async function Counter({ categoryId }: { categoryId: number | und
         },
     })
 
-    return (countBook._count._all)
+    return (`${countBook._count._all} books`)
 
 }

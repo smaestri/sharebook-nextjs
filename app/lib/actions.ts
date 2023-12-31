@@ -4,8 +4,27 @@ import { redirect } from "next/navigation";
 import { db } from "./db";
 import { revalidatePath } from "next/cache";
 
+
+import * as auth from '@/auth'
+
+export async function signIn() {
+    return auth.signIn("github")
+}
+
+export async function signOut() {
+    return auth.signOut()
+}
+
 export async function createBook(formState: { message: string }, formData: FormData) {
+
+
+
     try {
+        const session = await auth.auth()
+        if (!session || !session.user) {
+            throw new Error("user is null!")
+        }
+
         const title = formData.get('title')
         const author = formData.get('author')
         const category = formData.get('category')
@@ -20,7 +39,7 @@ export async function createBook(formState: { message: string }, formData: FormD
                 message: 'Author must be longer',
             };
         }
-        if (typeof category !== 'string' ) {
+        if (typeof category !== 'string') {
             return {
                 message: 'Cat incorrect',
             };
@@ -31,7 +50,7 @@ export async function createBook(formState: { message: string }, formData: FormD
                 title,
                 author,
                 categoryId: parseInt(category),
-                userId: 2
+                userId: session.user.id
             }
         })
 
@@ -54,7 +73,7 @@ export async function updateBook(id: number, formData: FormData) {
     const title = formData.get('title') as string
     const author = formData.get('author') as string
     const category = formData.get('category')
-    if (typeof category !== 'string' ) {
+    if (typeof category !== 'string') {
         return {
             message: 'Cat incorrect',
         };
@@ -85,14 +104,19 @@ export async function deleteBook(id: number) {
     redirect('/books')
 }
 
-export async function borrowBook(bookId: number, borrowerId: number) {
+export async function borrowBook(bookId: number) {
+
+    const session = await auth.auth()
+    if (!session || !session.user) {
+        return
+    }
 
     console.log('borrow book ' + bookId)
 
     await db.borrow.create({
         data: {
             bookId,
-            borrowerId
+            borrowerId: session.user.id
         }
     })
     const book = await db.book.update({

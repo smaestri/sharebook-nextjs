@@ -31,3 +31,37 @@ Montrer pour Borrow que nécessité de passer par un composant pour CLORE, afin 
 
 Attentino au mappign BORROW : un SEUL LIVRE EMROUNTE à insatnt T => bookID UNIQUE (et pas couple user/book unique)?
 
+
+NEXTui mettre dans layout cf UDEMY 54
+
+UDEMY init p^risma (56)
+npm install prisma
+npx prisma init --datasource-provider sqlite
+==>schema.prisma generated
+replace shema.prisma from ressources
+
+npx prisma migrate  dev
+
+
+OAUTH
+1 set GITUB  generate client ID / secret
+2 add env var in .env.local
+3 npm install --save-exact @auth/core@0.18.1 @auth/prisma-adapter@1.0.6 next-auth@5.0.0-beta.3
+4 make auth.ts file
+!! check if session fixed (nextauth) see 58:6min
+5 setup route.ts + oauth explanation
+6 SA to signin / signout user not required, but easy to understyad for other devs (U60)
+
+61 sign in, out, check oauth status
+
+62 cache au fur et a mesure, aps a la fin, trop complexe
+PROCESS :
+1 - Identify routes + data needed
+2 - Path helpers
+3 Routing folders from 1
+4- Identfy places where data changes
+5- Empty server actions
+6- COmment to revalidate for each server action
+
+
+72 oauth with caching cf picture

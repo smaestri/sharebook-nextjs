@@ -10,6 +10,7 @@ export default async function SideBar() {
      return (<div key={cat.id}><Link href={{ pathname: `/books`, query: { categoryId: cat.id } }} >{cat.name} (<Counter categoryId={cat.id} />)</Link></div>)
    })
   return (<div className="flex flex-col">
+    <Link href="/">Home</Link>
     {renderCategories}
     </div>
   )

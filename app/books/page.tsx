@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { db } from "../lib/db";
 import { borrowBook, deleteBook } from "../lib/actions";
-// import { useSearchParams } from "next/navigation";
-import { formatDateToLocal } from "../lib/utils";
 import { Category, Prisma } from "@prisma/client";
 import clsx from "clsx";
+import { auth } from "@/auth";
 
 const booksWithCategory = Prisma.validator<Prisma.BookDefaultArgs>()({
   include: { category: true },
@@ -15,6 +14,10 @@ export type BookWithCategory = Prisma.BookGetPayload<typeof booksWithCategory>
 export default async function Books({ searchParams }: any) {
   let books: BookWithCategory[];
   let category: Category | null = null
+
+  const session = await auth();
+
+
   if (searchParams.categoryId) {
     books = await db.book.findMany({
       include: {
@@ -22,12 +25,6 @@ export default async function Books({ searchParams }: any) {
       },
       where: {
         categoryId: parseInt(searchParams.categoryId),
-        // NOT: {
-        //   userId: {
-        //     equals: 2
-        //   }
-        // }
-
       }
     });
 
@@ -37,10 +34,12 @@ export default async function Books({ searchParams }: any) {
     })
 
   } else {
+    if (!session || !session.user) {
+      return <div>Vous n'etes pas connecté</div>
+    }
     books = await db.book.findMany({
       where: {
-        // TODO change when auth
-        userId: 2
+        userId: session.user.id
       },
       include: {
         category: true,
@@ -68,6 +67,9 @@ export default async function Books({ searchParams }: any) {
             </th>
             <th scope="col" className="px-3 py-5 font-medium">
               Status
+            </th>
+            <th scope="col" className="px-3 py-5 font-medium">
+              Owner
             </th>
             <th scope="col" className="relative py-3 pl-6 pr-3">
               <span className="sr-only">Edit</span>
@@ -113,12 +115,15 @@ export default async function Books({ searchParams }: any) {
                   </>
                 ) : null}
               </td>
+              <td>
+                {book.userId}
+              </td>
               <td className="whitespace-nowrap py-3 pl-6 pr-3">
                 <div className="flex justify-end gap-3">
                   {!category && <div><UpdateBook id={book.id} /><DeleteBook id={book.id} /></div>}
-                  {/* TODO change userId later */}
-                  {category && book.userId !== 2 && <BorrowBook id={book.id} status={book.status} />}
-                  {category && book.userId === 2 && <div><UpdateBook id={book.id} /><DeleteBook id={book.id} /></div>}
+                  {session?.user?.id && category && book.userId !== session?.user?.id && <BorrowBook id={book.id} status={book.status} />}
+                  {session?.user?.id && category && book.userId === session?.user?.id && <div><UpdateBook id={book.id} /><DeleteBook id={book.id} /></div>}
+                  {!session?.user?.id && <div>Connectez-vous pour emprunter!</div>}
                 </div>
               </td>
             </tr>
@@ -153,7 +158,7 @@ export function DeleteBook({ id }: { id: number }) {
 }
 
 export function BorrowBook({ id, status }: { id: number, status: string }) {
-  const borrowBookAction = borrowBook.bind(null, id, 2)
+  const borrowBookAction = borrowBook.bind(null, id)
 
   return (
     <form action={borrowBookAction}>

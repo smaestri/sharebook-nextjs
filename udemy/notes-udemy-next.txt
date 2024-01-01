@@ -67,3 +67,19 @@ PROCESS :
 72 oauth with caching cf picture
 
 76-82- zod install, inti schema
+
+93/94fetching in parents see
+
+parent : 
++ facile de voir quelle donnes sotn necessaire par route
++ reuse children component
++ avoid n+1 query issue
+- can lead to overfetching (minor)
+- type prisma a customizer
+
+children
++ easier skeleton
+
+95 parent decide what data to fetch with props
+=> soltuion "1.5"
+

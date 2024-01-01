@@ -1,8 +1,8 @@
 // "use client"
 import { db } from "@/app/lib/db";
 import { notFound } from "next/navigation";
-import EditBookForm from "./edit-form";
 import { BookWithCategory } from "../../page";
+import CreateEditBookForm from "../../new/create-edit-form";
 
 interface EditBookProps {
     params: {
@@ -26,10 +26,7 @@ export default async function EditBook(props: EditBookProps) {
     }
 
     return <div>
-
-        <EditBookForm categories={categories} book={bookWithCategory} />
-
-
+        <CreateEditBookForm categories={categories} book={bookWithCategory} />
     </div>
 
 }

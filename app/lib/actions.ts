@@ -14,7 +14,7 @@ const createBookSchema = z.object({
 
 interface CreateBookFormState {
     errors: {
-        title?: string[];
+                title?: string[];
         author?: string[];
         _form?: string[];
     }
@@ -32,9 +32,8 @@ export async function signOut() {
     return auth.signOut()
 }
 
-export async function createBook(formState: CreateBookFormState, formData: FormData): Promise<CreateBookFormState> {
 
-    console.log('formState' + JSON.stringify(formState))
+export async function createBook(formState: CreateBookFormState, formData: FormData): Promise<CreateBookFormState> {
     const session = await auth.auth()
     if (!session || !session.user) {
         return {
@@ -43,7 +42,6 @@ export async function createBook(formState: CreateBookFormState, formData: FormD
             }
         }
     }
-    console.log('create 2')
 
     const result = createBookSchema.safeParse({
         title: formData.get('title'),
@@ -54,8 +52,6 @@ export async function createBook(formState: CreateBookFormState, formData: FormD
 
 
     if (!result.success) {
-        console.log('create 3' + JSON.stringify(result.error.flatten().fieldErrors))
-
         return {
             errors: result.error.flatten().fieldErrors
         }
@@ -95,25 +91,57 @@ export async function createBook(formState: CreateBookFormState, formData: FormD
     redirect('/books')
 }
 
-export async function updateBook(id: number, formData: FormData) {
-    const title = formData.get('title') as string
-    const author = formData.get('author') as string
-    const category = formData.get('category')
-    if (typeof category !== 'string') {
+export async function updateBook(bookId: number, formState: CreateBookFormState, formData: FormData): Promise<CreateBookFormState> {
+    const session = await auth.auth()
+    if (!session || !session.user) {
         return {
-            message: 'Cat incorrect',
-        };
+            errors: {
+                _form: ["Please login"]
+            }
+        }
+    }
+    
+    const result = createBookSchema.safeParse({
+        title: formData.get('title'),
+        author: formData.get('author'),
+        category: formData.get('category')
+    })
+
+    if (!result.success) {
+        return {
+            errors: result.error.flatten().fieldErrors
+        }
     }
 
-    const book = await db.book.update({
-        where: { id },
-        data: {
-            title,
-            author,
-            categoryId: parseInt(category)
+    let book: Book;
+    try {
 
+        book = await db.book.update({
+            where: { id: bookId},
+            data: {
+                title: result.data.title,
+                author: result.data.author,
+                categoryId: parseInt(result.data.category),
+                userId: session.user.id
+            }
+        })
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            return {
+                errors: {
+                    _form: [err.message]
+                }
+            }
+        } else {
+            return {
+                errors: {
+                    _form: ['Something went wrong']
+                }
+            }
         }
-    })
+
+    }
+
     revalidatePath('/books')
     redirect('/books')
 }

@@ -65,3 +65,5 @@ PROCESS :
 
 
 72 oauth with caching cf picture
+
+76-82- zod install, inti schema

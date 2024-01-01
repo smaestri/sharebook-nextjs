@@ -4,8 +4,25 @@ import { redirect } from "next/navigation";
 import { db } from "./db";
 import { revalidatePath } from "next/cache";
 
+import { z } from "zod"
+
+const createBookSchema = z.object({
+    title: z.string().min(3).regex(/^[a-z]+$/, { message: "Must be lowercase" }),
+    author: z.string().min(3),
+    category: z.string()
+})
+
+interface CreateBookFormState {
+    errors: {
+        title?: string[];
+        author?: string[];
+        _form?: string[];
+    }
+}
+
 
 import * as auth from '@/auth'
+import { Book } from "@prisma/client";
 
 export async function signIn() {
     return auth.signIn("github")
@@ -15,56 +32,65 @@ export async function signOut() {
     return auth.signOut()
 }
 
-export async function createBook(formState: { message: string }, formData: FormData) {
+export async function createBook(formState: CreateBookFormState, formData: FormData): Promise<CreateBookFormState> {
 
-
-
-    try {
-        const session = await auth.auth()
-        if (!session || !session.user) {
-            throw new Error("user is null!")
-        }
-
-        const title = formData.get('title')
-        const author = formData.get('author')
-        const category = formData.get('category')
-
-        if (typeof title !== 'string' || title.length < 5) {
-            return {
-                message: 'Title must be longer',
-            };
-        }
-        if (typeof author !== 'string' || author.length < 5) {
-            return {
-                message: 'Author must be longer',
-            };
-        }
-        if (typeof category !== 'string') {
-            return {
-                message: 'Cat incorrect',
-            };
-        }
-
-        await db.book.create({
-            data: {
-                title,
-                author,
-                categoryId: parseInt(category),
-                userId: session.user.id
-            }
-        })
-
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            return {
-                message: err.message
-            }
-        } else {
-            return {
-                message: "Something went wrong"
+    console.log('formState' + JSON.stringify(formState))
+    const session = await auth.auth()
+    if (!session || !session.user) {
+        return {
+            errors: {
+                _form: ["Please login"]
             }
         }
     }
+    console.log('create 2')
+
+    const result = createBookSchema.safeParse({
+        title: formData.get('title'),
+        author: formData.get('author'),
+        category: formData.get('category')
+
+    })
+
+
+    if (!result.success) {
+        console.log('create 3' + JSON.stringify(result.error.flatten().fieldErrors))
+
+        return {
+            errors: result.error.flatten().fieldErrors
+        }
+    }
+
+    let book: Book;
+    try {
+
+        book = await db.book.create({
+            data: {
+                title: result.data.title,
+                author: result.data.author,
+                categoryId: parseInt(result.data.category),
+                userId: session.user.id
+            }
+        })
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            return {
+                errors: {
+                    _form: [err.message]
+                }
+            }
+        } else {
+            return {
+                errors: {
+                    _form: ['Something went wrong']
+                }
+            }
+        }
+
+    }
+
+    console.log('create 4')
+
     revalidatePath('/books')
     redirect('/books')
 }

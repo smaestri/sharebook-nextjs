@@ -4,6 +4,7 @@ import { Button, Input, Select, SelectItem } from "@nextui-org/react";
 import { Category } from "@prisma/client";
 import { useState } from "react";
 import { useFormState } from "react-dom";
+import FormButton from "./form-button";
 
 interface CreateBookFormProps {
   categories: Category[]
@@ -29,7 +30,7 @@ export default function CreateBookForm({categories}: CreateBookFormProps) {
         <SelectItem key={category.id} value={category.id} >{category.name}</SelectItem>
       )}
       </Select>
-      <Button type="submit">Valid</Button>
+      <FormButton>Save</FormButton>
       {formState.errors._form? <div className="p-2 bg-red-200 border border-red-400">{formState.errors._form?.join(', ')}</div> : null}
     </form>
   )

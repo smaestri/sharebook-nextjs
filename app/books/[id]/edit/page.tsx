@@ -3,6 +3,8 @@ import { db } from "@/app/lib/db";
 import { notFound } from "next/navigation";
 import { BookWithCategory } from "../../page";
 import CreateEditBookForm from "../../new/create-edit-form";
+import { Suspense } from "react";
+import BookCreateLoading from "./book-create-loading";
 
 interface EditBookProps {
     params: {
@@ -26,7 +28,9 @@ export default async function EditBook(props: EditBookProps) {
     }
 
     return <div>
-        <CreateEditBookForm categories={categories} book={bookWithCategory} />
+        <Suspense fallback={<BookCreateLoading />}>
+            <CreateEditBookForm categories={categories} book={bookWithCategory} />
+        </Suspense>
     </div>
 
 }

@@ -3,9 +3,11 @@ import Link from "next/link";
 import { borrowBook, deleteBook } from "../lib/actions";
 import { Category } from "@prisma/client";
 import clsx from "clsx";
-import { Button } from "@nextui-org/react";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 import FormButton from "../common/form-button";
 import { BookWithCategory } from "./list-books";
+import { useFormState } from "react-dom";
+import { useEffect } from "react";
 
 interface ListBooksFormProps {
   books: BookWithCategory[]
@@ -20,7 +22,6 @@ export default function ListBooksForm({ category, books, userId, search=false}: 
   {search && <h1>Results</h1>}
   {category && <h1>Books for category {category.name}</h1>}
   {!category && !search && <h1>My Books</h1>}
-
 
     <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
 
@@ -118,13 +119,42 @@ export function UpdateBook({ id }: { id: number }) {
 
 export function DeleteBook({ id }: { id: number }) {
   const deleteBookAction = deleteBook.bind(null, id)
+  const [formState, action] = useFormState(deleteBookAction, {message: ''})
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-  return (
-    <form action={deleteBookAction}>
+  useEffect(()=> {
+    if(formState.message){
+      onOpen()
+    }
+  }, [formState])
+
+  return (<>test: {isOpen}
+    <form action={action}>
       <FormButton
         className="rounded-md border p-2 hover:bg-gray-100">Delete
       </FormButton>
     </form>
+    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
+            <ModalBody>
+              <p> 
+              The book is currently being borrowed, you can't delete it!
+              </p>
+
+            </ModalBody>
+            <ModalFooter>
+              <Button color="danger" variant="light" onPress={onClose}>
+                Close
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
+    </>
   );
 }
 

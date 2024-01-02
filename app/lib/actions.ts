@@ -1,9 +1,9 @@
 'use server';
-
 import { redirect } from "next/navigation";
 import { db } from "./db";
 import { revalidatePath } from "next/cache";
-
+import * as auth from '@/auth'
+import { Book } from "@prisma/client";
 import { z } from "zod"
 
 const createBookSchema = z.object({
@@ -14,15 +14,11 @@ const createBookSchema = z.object({
 
 interface CreateBookFormState {
     errors: {
-                title?: string[];
+        title?: string[];
         author?: string[];
         _form?: string[];
     }
 }
-
-
-import * as auth from '@/auth'
-import { Book } from "@prisma/client";
 
 export async function signIn() {
     return auth.signIn("github")
@@ -31,7 +27,6 @@ export async function signIn() {
 export async function signOut() {
     return auth.signOut()
 }
-
 
 export async function createBook(formState: CreateBookFormState, formData: FormData): Promise<CreateBookFormState> {
     const session = await auth.auth()
@@ -49,8 +44,6 @@ export async function createBook(formState: CreateBookFormState, formData: FormD
         category: formData.get('category')
 
     })
-
-
     if (!result.success) {
         return {
             errors: result.error.flatten().fieldErrors
@@ -82,17 +75,13 @@ export async function createBook(formState: CreateBookFormState, formData: FormD
                 }
             }
         }
-
     }
-
-    console.log('create 4')
-
     revalidatePath('/books')
     redirect('/books')
 }
 
 export async function updateBook(bookId: number, formState: CreateBookFormState, formData: FormData): Promise<CreateBookFormState> {
-      const session = await auth.auth()
+    const session = await auth.auth()
     if (!session || !session.user) {
         return {
             errors: {
@@ -100,7 +89,7 @@ export async function updateBook(bookId: number, formState: CreateBookFormState,
             }
         }
     }
-    
+
     const result = createBookSchema.safeParse({
         title: formData.get('title'),
         author: formData.get('author'),
@@ -117,7 +106,7 @@ export async function updateBook(bookId: number, formState: CreateBookFormState,
     try {
 
         book = await db.book.update({
-            where: { id: bookId},
+            where: { id: bookId },
             data: {
                 title: result.data.title,
                 author: result.data.author,
@@ -139,7 +128,6 @@ export async function updateBook(bookId: number, formState: CreateBookFormState,
                 }
             }
         }
-
     }
 
     revalidatePath('/books')
@@ -147,10 +135,19 @@ export async function updateBook(bookId: number, formState: CreateBookFormState,
 }
 
 export async function deleteBook(id: number) {
+    // check if book already borrowed
+    const book = await db.book.findFirst({
+        where: {
+            id
+        }
+    })
+    if (book?.status === "BORROWED") {
+        return {
+            message: "The book is currently being borrowed, you can't delete it!"
+        }
 
-    console.log('delete book ' + id)
-
-    const book = await db.book.delete({
+    }
+    await db.book.delete({
         where: { id },
 
     })
@@ -159,14 +156,10 @@ export async function deleteBook(id: number) {
 }
 
 export async function borrowBook(bookId: number) {
-
     const session = await auth.auth()
     if (!session || !session.user) {
         return
     }
-
-    console.log('borrow book ' + bookId)
-
     await db.borrow.create({
         data: {
             bookId,
@@ -179,15 +172,11 @@ export async function borrowBook(bookId: number) {
             status: "BORROWED"
         }
     })
-
     revalidatePath('/borrows')
     redirect('/borrows')
 }
 
 export async function closeBorrow(bookId: number) {
-
-    console.log('closeBorrow ' + bookId)
-
     await db.borrow.deleteMany({
         where: {
             bookId,
@@ -199,7 +188,6 @@ export async function closeBorrow(bookId: number) {
             status: "FREE"
         }
     })
-
     revalidatePath('/borrows')
     redirect('/borrows')
 }
@@ -208,7 +196,7 @@ export async function closeBorrow(bookId: number) {
 export async function search(formData: FormData) {
     const term = formData.get('term')
     if (typeof term !== 'string' || !term) {
-        redirect ("/")
+        redirect("/")
     }
     redirect(`/search?term=${term}`)
 }

@@ -68,6 +68,7 @@ export function DeleteBook({ id }: { id: number }) {
         className="rounded-md border p-2 hover:bg-gray-100">Delete
       </FormButton>
     </form>
+    
   );
 }
 

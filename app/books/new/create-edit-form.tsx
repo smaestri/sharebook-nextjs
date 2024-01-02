@@ -2,7 +2,7 @@
 import { createBook, updateBook } from "@/app/lib/actions";
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { useFormState } from "react-dom";
-import FormButton from "./form-button";
+import FormButton from "../../common/form-button";
 import { BookWithCategory } from "../page";
 import React from "react";
 
@@ -28,7 +28,6 @@ export default function CreateEditBookForm({ categories, book }: CreateEditBookF
   const [formState, action] = useFormState(getAction(), {
     errors: {}
   })
-  //const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <div className="flex max-w-md">

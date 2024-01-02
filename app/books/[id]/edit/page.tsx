@@ -5,6 +5,7 @@ import { BookWithCategory } from "../../page";
 import CreateEditBookForm from "../../new/create-edit-form";
 import { Suspense } from "react";
 import BookCreateLoading from "./book-create-loading";
+import EditBook from "./edit-book";
 
 interface EditBookProps {
     params: {
@@ -12,24 +13,10 @@ interface EditBookProps {
     }
 }
 
-export default async function EditBook(props: EditBookProps) {
-    const id = parseInt(props.params.id)
-    const bookWithCategory: BookWithCategory | null = await db.book.findFirst({
-        include: {
-            category: true,
-        },
-        where: { id }
-    })
-
-    const categories = await db.category.findMany();
-
-    if (!bookWithCategory) {
-        return notFound();
-    }
-
+export default async function EditBookSuspense(props: EditBookProps) {
     return <div>
         <Suspense fallback={<BookCreateLoading />}>
-            <CreateEditBookForm categories={categories} book={bookWithCategory} />
+            <EditBook params={props.params}/>
         </Suspense>
     </div>
 

@@ -1,3 +1,4 @@
+import FormButton from "../common/form-button"
 import { closeBorrow } from "../lib/actions"
 
 export default function CloseBorrowForm({ bookId }: { bookId: number }) {
@@ -5,7 +6,7 @@ export default function CloseBorrowForm({ bookId }: { bookId: number }) {
 
     return (
         <form action={closeBorrowAction}>
-            <button>Close</button>
+            <FormButton>Close</FormButton>
         </form>
     )
 

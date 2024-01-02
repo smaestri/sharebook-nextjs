@@ -57,12 +57,6 @@ const load = async () => {
       } 
     })
 
-    await prisma.category.create({
-      data:{
-        name: 'English'
-      } 
-    })
-
     const catEnglish = await prisma.category.create({
       data:{
         name: 'English'

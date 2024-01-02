@@ -6,11 +6,13 @@ import { ReactNode } from "react"
 
 interface  FormButtonProps {
   children: ReactNode
+  disabled?: boolean
+  className?: string
 }
 
-export default function FormButton ({children} : FormButtonProps) {
+export default function FormButton ({children, className, disabled = false} : FormButtonProps) {
 const {pending} = useFormStatus();
-return <Button type="submit" isLoading={pending}>
+return <Button type="submit" className={className} disabled={disabled} isLoading={pending}>
   {children}
 </Button>
 }

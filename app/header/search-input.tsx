@@ -1,10 +1,14 @@
+"use client"
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 import { useSearchParams } from "next/navigation";
+import { search } from "../lib/actions";
 
-export default function SaerchInput() {
+export default function SearchInput() {
 const searchParams = useSearchParams();
-    return (<Input
+    return (<form action={search}>
+        <Input
+        name="term"
         classNames={{
             base: "max-w-full sm:max-w-[10rem] h-10",
             mainWrapper: "h-full",
@@ -15,6 +19,6 @@ const searchParams = useSearchParams();
         size="sm"
         startContent={<SearchIcon size={18} />}
         type="search"
-        defaultValue={searchParams.get("search") || ""}
-    />)
+        defaultValue={searchParams.get("term") || ""}
+    /></form>)
 }

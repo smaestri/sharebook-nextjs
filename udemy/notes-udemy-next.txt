@@ -83,3 +83,7 @@ children
 95 parent decide what data to fetch with props
 => soltuion "1.5"
 
+113 search
+- classi creact approach with on submit
+- server action => pas be soin de JS!
+

@@ -203,3 +203,12 @@ export async function closeBorrow(bookId: number) {
     revalidatePath('/borrows')
     redirect('/borrows')
 }
+
+
+export async function search(formData: FormData) {
+    const term = formData.get('term')
+    if (typeof term !== 'string' || !term) {
+        redirect ("/")
+    }
+    redirect(`/search?term=${term}`)
+}

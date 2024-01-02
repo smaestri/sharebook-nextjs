@@ -92,7 +92,7 @@ export async function createBook(formState: CreateBookFormState, formData: FormD
 }
 
 export async function updateBook(bookId: number, formState: CreateBookFormState, formData: FormData): Promise<CreateBookFormState> {
-    const session = await auth.auth()
+      const session = await auth.auth()
     if (!session || !session.user) {
         return {
             errors: {

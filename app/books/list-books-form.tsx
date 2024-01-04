@@ -5,12 +5,12 @@ import { Category } from "@prisma/client";
 import clsx from "clsx";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 import FormButton from "../common/form-button";
-import { BookWithCategory } from "./list-books";
+import { BookWithCategoryAndUser } from "./list-books";
 import { useFormState } from "react-dom";
 import { useEffect } from "react";
 
 interface ListBooksFormProps {
-  books: BookWithCategory[]
+  books: BookWithCategoryAndUser[]
   category?: Category
   userId?: string
   search?: boolean
@@ -49,7 +49,7 @@ export default function ListBooksForm({ category, books, userId, search=false}: 
           </tr>
         </thead>
         <tbody className="bg-white">
-          {books?.map((book: BookWithCategory) => (
+          {books?.map((book: BookWithCategoryAndUser) => (
             <tr
               key={book.id}
               className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
@@ -88,7 +88,7 @@ export default function ListBooksForm({ category, books, userId, search=false}: 
                 ) : null}
               </td>
               <td>
-                {book.userId}
+                {book.user.email}
               </td>
               <td className="whitespace-nowrap py-3 pl-6 pr-3">
                 <div className="flex justify-end gap-3">
@@ -126,9 +126,9 @@ export function DeleteBook({ id }: { id: number }) {
     if(formState.message){
       onOpen()
     }
-  }, [formState])
+  }, [formState, onOpen])
 
-  return (<>test: {isOpen}
+  return (<>
     <form action={action}>
       <FormButton
         className="rounded-md border p-2 hover:bg-gray-100">Delete
@@ -141,7 +141,7 @@ export function DeleteBook({ id }: { id: number }) {
             <ModalHeader className="flex flex-col gap-1">Modal Title</ModalHeader>
             <ModalBody>
               <p> 
-              The book is currently being borrowed, you can't delete it!
+              The book is currently being borrowed, you cannot delete it!
               </p>
 
             </ModalBody>

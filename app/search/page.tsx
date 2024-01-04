@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { db } from "../lib/db";
-import ListBooks, { BookWithCategory } from "../books/list-books";
+import { BookWithCategoryAndUser } from "../books/list-books";
 import ListBooksForm from "../books/list-books-form";
 import { auth } from "@/auth";
 
@@ -17,10 +17,8 @@ if(!term){
     redirect('/')
 }
 const session = await auth();
-if (!session || !session.user) {
-  return <div>Vous n'etes pas connecté</div>
-}
-const books : BookWithCategory[] = await db.book.findMany({
+
+const books : BookWithCategoryAndUser[] = await db.book.findMany({
     include: {
         category: true,
          user: true

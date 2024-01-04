@@ -4,27 +4,24 @@ import { borrowBook, deleteBook } from "../lib/actions";
 import { Category, Prisma } from "@prisma/client";
 import clsx from "clsx";
 import { auth } from "@/auth";
-import { Button } from "@nextui-org/react";
 import FormButton from "../common/form-button";
 import ListBooksForm from "./list-books-form";
 
 const booksWithCategory = Prisma.validator<Prisma.BookDefaultArgs>()({
-  include: { category: true },
+  include: { category: true, user: true },
 })
-export type BookWithCategory = Prisma.BookGetPayload<typeof booksWithCategory>
+export type BookWithCategoryAndUser = Prisma.BookGetPayload<typeof booksWithCategory>
 
 export default async function ListBooks({ searchParams }: any) {
-  let books: BookWithCategory[];
+  let books: BookWithCategoryAndUser[];
   let category: Category | null = null
   const session = await auth();
-  if (!session || !session.user) {
-    return <div>Vous n'etes pas connecté</div>
-  }
 
   if (searchParams.categoryId) {
     books = await db.book.findMany({
       include: {
         category: true,
+        user: true
       },
       where: {
         categoryId: parseInt(searchParams.categoryId),
@@ -35,6 +32,10 @@ export default async function ListBooks({ searchParams }: any) {
     })
 
   } else {
+    // My Books
+    if (!session || !session.user) {
+      return <div>Please sign in</div>
+    }
 
     books = await db.book.findMany({
       where: {
@@ -42,6 +43,7 @@ export default async function ListBooks({ searchParams }: any) {
       },
       include: {
         category: true,
+        user: true
       }
     });
   }

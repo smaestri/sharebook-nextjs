@@ -14,7 +14,7 @@ export type BorrowWithBook = Prisma.BorrowGetPayload<typeof borrowWithBook>
 export default async function Borrows() {
   const session = await auth();
   if (!session || !session.user) {
-    return <div>Vous n'etes pas connecté</div>
+    return <div>Please sign-in</div>
   }
   const borrows: BorrowWithBook[] = await db.borrow.findMany({
     include: {

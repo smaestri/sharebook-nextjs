@@ -2,19 +2,17 @@ import { auth } from "@/auth";
 import Account from "./account";
 import Link from "next/link";
 import { signIn } from "../lib/actions";
-import { Button, Navbar, NavbarBrand, NavbarContent } from "@nextui-org/react";
+import { Button, Navbar, NavbarBrand, NavbarContent, Image } from "@nextui-org/react";
 import SearchInput from "./search-input";
 
 export default async function Header() {
-
   const session = await auth();
-
   return (
     <Navbar isBordered maxWidth={'full'}>
       <NavbarContent justify="start">
         <NavbarBrand className="mr-4">
           <Link href="/">
-            <img />
+            <Image />
             <p className="hidden sm:block font-bold text-inherit">Sharebook</p>
           </Link>
         </NavbarBrand>
@@ -29,7 +27,5 @@ export default async function Header() {
           </form>}
       </NavbarContent>
     </Navbar>
-
   )
-
 }

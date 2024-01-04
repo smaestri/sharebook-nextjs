@@ -166,7 +166,7 @@ export async function borrowBook(bookId: number) {
             borrowerId: session.user.id
         }
     })
-    const book = await db.book.update({
+    await db.book.update({
         where: { id: bookId },
         data: {
             status: "BORROWED"
@@ -191,7 +191,6 @@ export async function closeBorrow(bookId: number) {
     revalidatePath('/borrows')
     redirect('/borrows')
 }
-
 
 export async function search(formData: FormData) {
     const term = formData.get('term')

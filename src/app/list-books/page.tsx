@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import BookCreateLoading from "../../components/book-create-loading";
+import BookCreateLoading from "@/components/book-create-loading";
 import { Suspense } from "react";
 import ListBooks from "./list-books";
 

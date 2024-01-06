@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { db } from "../../lib/db";
 import { BookWithCategoryAndUser } from "../list-books/list-books";
-import ListBooksForm from "../../components/list-books-form";
+import ListBooksForm from "@/components/list-books-form";
 import { auth } from "@/auth";
 
 interface SearchProps{

@@ -1,11 +1,7 @@
-import Link from "next/link";
 import { db } from "../../lib/db";
-import { borrowBook, deleteBook } from "../../lib/actions";
 import { Category, Prisma } from "@prisma/client";
-import clsx from "clsx";
 import { auth } from "@/auth";
-import FormButton from "../../components/form-button";
-import ListBooksForm from "../../components/list-books-form";
+import ListBooksForm from "@/components/list-books-form";
 
 const booksWithCategory = Prisma.validator<Prisma.BookDefaultArgs>()({
   include: { category: true, user: true },

@@ -1,7 +1,7 @@
-import { db } from "@/src/lib/db";
+import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { BookWithCategory } from "../../page";
-import CreateEditBookForm from "@/src/app/my-books/new/create-edit-form";
+import CreateEditBookForm from "@/app/my-books/new/create-edit-form";
 
 interface EditBookProps {
     params: {

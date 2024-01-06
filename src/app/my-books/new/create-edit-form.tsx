@@ -1,10 +1,10 @@
 "use client"
 import { Input, Select, SelectItem } from "@nextui-org/react";
 import { useFormState } from "react-dom";
-import FormButton from "../@/components/form-button";
+import FormButton from "@/components/form-button";
 import { BookWithCategory } from "../page";
 import React from "react";
-import { createBook, updateBook } from "@/src/lib/actions";
+import { createBook, updateBook } from "@/lib/actions";
 
 
 interface CreateEditBookFormProps {

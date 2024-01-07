@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
-import { BookWithCategory } from "../../page";
+import { BookWithCategory } from "@/app/my-books/page";
 import CreateEditBookForm from "@/app/my-books/new/create-edit-form";
 
 interface EditBookProps {
@@ -23,6 +23,11 @@ export default async function EditBook(props: EditBookProps) {
         return notFound();
     }
 
-    return <CreateEditBookForm categories={categories} book={bookWithCategory} />
+    return (
+        <>
+            <h1 className="text-2xl">Modifier un Livre</h1>
+            <CreateEditBookForm categories={categories} book={bookWithCategory} />
+        </>
+    )
 
 }

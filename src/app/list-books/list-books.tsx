@@ -1,14 +1,15 @@
-import { db } from "../../lib/db";
+import { db } from "@/lib/db";
 import { Category, Prisma } from "@prisma/client";
 import { auth } from "@/auth";
 import ListBooksForm from "@/components/list-books-form";
+import { ListBooksProps } from "./page";
 
 const booksWithCategory = Prisma.validator<Prisma.BookDefaultArgs>()({
   include: { category: true, user: true },
 })
 export type BookWithCategoryAndUser = Prisma.BookGetPayload<typeof booksWithCategory>
 
-export default async function ListBooks({ searchParams }: any) {
+export default async function ListBooks({ searchParams }: ListBooksProps) {
   let books: BookWithCategoryAndUser[];
   let category: Category | null = null
   const session = await auth();
@@ -24,9 +25,11 @@ export default async function ListBooks({ searchParams }: any) {
   category = await db.category.findFirst({
     where: { id: parseInt(searchParams.categoryId) }
   })
-
-  console.log('books' + JSON.stringify(books))
-  return (<ListBooksForm userId={session?.user?.id} category={category || undefined} books={books} />)
+  return (<>
+    <h1 className="text-2xl">Books for category "{category?.name}"</h1>
+    <ListBooksForm userId={session?.user?.id} books={books} />
+  </>
+  )
 }
 
 

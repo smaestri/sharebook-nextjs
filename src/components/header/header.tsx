@@ -1,9 +1,9 @@
 import Account from "./account";
 import Link from "next/link";
-import { signIn } from "../../lib/actions";
+import { signIn } from "@/lib/actions";
 import { Button, Navbar, NavbarBrand, NavbarContent, Image } from "@nextui-org/react";
 import SearchInput from "./search-input";
-import { auth } from "../../auth";
+import { auth } from "@/auth";
 
 export default async function Header() {
   const session = await auth();

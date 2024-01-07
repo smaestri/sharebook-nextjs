@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { db } from "../../lib/db";
+import { db } from "@/lib/db";
 import CloseBorrowForm from "./close-borrow-form";
 import { auth } from "@/auth";
 
@@ -28,11 +28,11 @@ export default async function Borrows() {
 
 
   if (!borrows || borrows.length === 0) {
-    return <div>No current borrows</div>
+    return <div>Pas d'emprunt en cours</div>
   }
 
   return (<div>
-    <h1>My borrows</h1>
+    <h1 className="text-2xl">Mes emprunts</h1>
     <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
       <table className="hidden min-w-full text-gray-900 md:table">
         <thead className="rounded-lg text-left text-sm font-normal">

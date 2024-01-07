@@ -8,7 +8,7 @@ const booksWithCategory = Prisma.validator<Prisma.BookDefaultArgs>()({
 })
 export type BookWithCategory = Prisma.BookGetPayload<typeof booksWithCategory>
 
-export default async function Books({ searchParams }: any) {
+export default async function MyBooksPage() {
   return (<Suspense fallback={<BookCreateLoading />}>
     <MyBooks />
   </Suspense>)

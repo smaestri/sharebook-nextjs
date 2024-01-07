@@ -1,4 +1,3 @@
-// "use client"
 import { Suspense } from "react";
 import BookCreateLoading from "@/components/book-create-loading";
 import EditBook from "./edit-book";

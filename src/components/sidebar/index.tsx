@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { db } from "../../lib/db";
+import { db } from "@/lib/db";
 import Counter from "./counter";
 import { Category } from "@prisma/client";
 

@@ -5,17 +5,16 @@ import FormButton from "@/components/form-button";
 import { BookWithCategory } from "../page";
 import React from "react";
 import { createBook, updateBook } from "@/lib/actions";
+import { Category } from "@prisma/client";
 
 
 interface CreateEditBookFormProps {
   book?: BookWithCategory
-  categories: any[]
+  categories: Category[]
 }
 
 export default function CreateEditBookForm({ categories, book }: CreateEditBookFormProps) {
-
   // need to transform ID in string to display Select correctly
-
   const categoriesFormatted = categories.map(cat => ({ ...cat, id: cat.id.toString() }))
 
   const getAction = () => {

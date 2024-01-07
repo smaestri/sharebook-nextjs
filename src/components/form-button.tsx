@@ -12,7 +12,8 @@ interface FormButtonProps {
 
 export default function FormButton({ children, className, disabled = false }: FormButtonProps) {
   const { pending } = useFormStatus();
-  return <Button type="submit" className={className} disabled={disabled} isLoading={pending}>
+  return <Button
+            type="submit" className={className} isDisabled={disabled} isLoading={pending}>
     {children}
   </Button>
 }

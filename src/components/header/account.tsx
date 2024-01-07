@@ -2,7 +2,7 @@
 import React from 'react';
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from '@nextui-org/react';
 import { useRouter } from 'next/navigation'
-import { signOut } from '../../lib/actions';
+import { signOut } from '@/lib/actions';
 
 interface AccountProps {
   avatarSrc?: string
@@ -16,10 +16,8 @@ export default function Account({ avatarSrc, mail }: AccountProps) {
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
         <Avatar
-          isBordered
           as="button"
           className="transition-transform"
-          color="secondary"
           name={mail}
           size="sm"
           src={avatarSrc}

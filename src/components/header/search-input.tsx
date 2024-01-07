@@ -2,7 +2,7 @@
 import { Input } from "@nextui-org/react";
 import { SearchIcon } from "./SearchIcon";
 import { useSearchParams } from "next/navigation";
-import { search } from "../../lib/actions";
+import { search } from "@/lib/actions";
 
 export default function SearchInput() {
     const searchParams = useSearchParams();
